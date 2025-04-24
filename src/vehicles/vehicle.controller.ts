@@ -1,19 +1,21 @@
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete, ValidationPipe, UsePipes } from '@nestjs/common';
 import { VehicleService } from './vehicle.service';
 import { VehicleDto } from './dto/vehicle.dto';
 import { Vehicle } from './vehicle.entity';
 
-@Controller('Vehicles')
+@Controller('vehicles')
 export class VehicleController {
   constructor(private readonly vehiclesService: VehicleService) {}
 
   @Post()
-  create(@Body() vehicle: Vehicle) {
+  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+  create(@Body() vehicle: VehicleDto) {
     return this.vehiclesService.create(vehicle);
   }
 
   @Get()
   findAll() {
+    console.log('asdasd')
     return this.vehiclesService.findAll();
   }
 

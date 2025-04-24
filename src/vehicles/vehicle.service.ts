@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Vehicle } from './vehicle.entity';
+import { VehicleDto } from './dto/vehicle.dto';
 
 @Injectable()
 export class VehicleService {
@@ -9,8 +10,9 @@ export class VehicleService {
     private readonly vehicleModel: typeof Vehicle,
   ) {}
 
-  async create(vehicle: Vehicle): Promise<Vehicle> {
-    return this.vehicleModel.create(vehicle);
+  async create(vehicle: VehicleDto): Promise<Vehicle> {
+    const vehicleCreated = await Vehicle.create(vehicle as Vehicle);
+    return vehicleCreated;
   }
 
   async findAll(): Promise<Vehicle[]> {
