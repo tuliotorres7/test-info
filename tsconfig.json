@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "strictPropertyInitialization": false,
+    "module": "commonjs",
+    "strict": true,
+    "target": "es2017",
+    "lib": ["es2017", "dom"],
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "types": ["node", "mocha", "chai"]
+  },
+  "include": ["src/**/*.ts", ],
+  "exclude": ["node_modules", "dist","test"]
+}
