@@ -25,6 +25,7 @@ export class VehicleService {
 
   async update(id: string, vehicleUpdate: Vehicle): Promise<Vehicle | null> {
     const vehicle = await this.vehicleModel.findByPk(id);
+    console.log('vehicle1111111', vehicle);
     if (!vehicle) {
       return null;
     }
@@ -34,6 +35,7 @@ export class VehicleService {
 async remove(id: string): Promise<void> {
     const vehicle = await this.vehicleModel.findByPk(id);
     if (vehicle) {
+      //await Vehicle.destroy({ where: { id: vehicle.id } });
       await vehicle.destroy();
     }
   }

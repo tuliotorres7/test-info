@@ -1,6 +1,9 @@
 import { Table, Column, Model, DataType, PrimaryKey, AutoIncrement } from 'sequelize-typescript';
 
-@Table
+@Table({
+  timestamps: true, // Habilita timestamps
+  updatedAt: false, // Desabilita apenas o updatedAt
+})
 export class Vehicle extends Model<Vehicle> {
   
   @Column({

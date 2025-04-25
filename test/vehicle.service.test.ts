@@ -24,8 +24,8 @@ describe('VehicleService', () => {
       placa: 'ABC1234',
       chassi: '9BWZZZ377VT004251',
       renavam: '12345678901',
-      modelo: 'Gol',
-      marca: 'Volkswagen',
+      modelo: 'palio',
+      marca: 'fiat',
       ano: 2025,
     };
 
@@ -69,7 +69,7 @@ describe('VehicleService', () => {
       placa: 'ABC1234', 
       chassi: '9BWZZZ377VT004251', 
       renavam: '12345678901', 
-      modelo: 'Gol', 
+      modelo: 'Polo', 
       marca: 'Volkswagen', 
       ano: 2025,
     } as unknown as Vehicle;
@@ -77,23 +77,32 @@ describe('VehicleService', () => {
     // Adiciona o método update manualmente e cria um stub para ele
     const updateStub = sinon.stub().resolves({ ...vehicle, modelo: 'Polo' });
     (vehicle as any).update = updateStub;
-
-    const updatedVehicle = { ...vehicle, modelo: 'Polo' } as Vehicle;
+    const updatedVehicle = { ...vehicle, placa: 'Polo' } as Vehicle;
 
     (Vehicle.findByPk as sinon.SinonStub).resolves(vehicle); // Stub para findByPk
-
+    //const result = (Vehicle.update as sinon.SinonStub).resolves(vehicle); // Stub para update
     const result = await vehicleService.update('1', updatedVehicle);
-
+    delete (updatedVehicle as any).update
     expect(result).to.deep.equal(updatedVehicle);
     expect((Vehicle.findByPk as sinon.SinonStub).calledOnceWithExactly('1')).to.be.true;
     expect(updateStub.calledOnceWithExactly(updatedVehicle)).to.be.true;
   });
 
   it('should delete a vehicle', async () => {
-    const vehicle = { id: 1, placa: 'ABC1234', chassi: '9BWZZZ377VT004251', renavam: '12345678901', modelo: 'Gol', marca: 'Volkswagen', ano: 2025 } as Vehicle;
+    const vehicle = { 
+      id: 1, 
+      placa: 'ABC12343', 
+      chassi: '9BWZZZ377VT0042512', 
+      renavam: '123456789013', 
+      modelo: 'Gol', 
+      marca: 'Volkswagen', 
+      ano: 2025,
+    } as unknown as Vehicle;
+    // Adiciona o método destroy manualmente e cria um stub para ele
+    const destroyStub = sinon.stub().resolves();
+    (vehicle as any).destroy = destroyStub;
 
-    (Vehicle.findByPk as sinon.SinonStub).resolves(vehicle);
-    const destroyStub = sinon.stub(vehicle, 'destroy').resolves();
+    (Vehicle.findByPk as sinon.SinonStub).resolves(vehicle); // Stub para findByPk
 
     await vehicleService.remove('1');
 
