@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Put, Delete, ValidationPipe, UsePipes, Query, HttpStatus, HttpException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete, ValidationPipe, UsePipes, Query, HttpStatus, HttpException, ParseIntPipe } from '@nestjs/common';
 import { VehicleService } from './vehicle.service';
 import { VehicleDto } from './dto/vehicle.dto';
 import { Vehicle } from './vehicle.entity';
@@ -92,9 +92,22 @@ export class VehicleController {
   @Get('list')
   @ApiBody({ type: FiltersVehicles, description: 'data for list vehicles by year' })
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+  @ApiQuery({
+    name: 'page',
+    description: 'Page for returne',
+    required: true
+  })@ApiQuery({
+    name: 'limit',
+    description: 'limit for returne',
+    required: true
+  })
   async list(
     @Body() body: FiltersVehicles,
+    @Query('page', ParseIntPipe) page :number  =1,
+    @Query('limit', ParseIntPipe) limit :number = 2,
   ) {
+    limit= limit ? limit : 10;
+    page = page ? page : 1;
     const {producedBeforeTheYear,producedAfterTheYear} = body;
     if((!producedBeforeTheYear && !producedAfterTheYear)||(producedBeforeTheYear && producedAfterTheYear && producedAfterTheYear > producedBeforeTheYear )){
       throw new HttpException(
@@ -103,7 +116,8 @@ export class VehicleController {
       );
     }
     try{
-    return this.vehiclesService.list(body);
+      console.log(limit,'limit');
+    return this.vehiclesService.list(body,page,limit);
   }catch (error) {
       console.log('Error finding vehicles:', error);
       throw new Error;

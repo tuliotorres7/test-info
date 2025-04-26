@@ -19,12 +19,25 @@ export class VehicleService {
     try {
       const vehicleCreated = await Vehicle.create(vehicle as Vehicle);
       return vehicleCreated;
-    } catch (error) {
-      console.error('Error creating vehicle:', error);
-      throw new HttpException(
-        'Failed to create vehicle: ' + (error instanceof Error ? error.message : 'Unknown error'),
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+    } catch (error:any) {
+      if (error.name === 'SequelizeUniqueConstraintError') {
+              const uniqueError = error;
+              const messages = uniqueError.errors.map((err: any) => `${err.path} must be unique: ${err.value}`);
+              throw new HttpException(
+                {
+                  message: 'Validation error',
+                  error: messages,
+                  statusCode:HttpStatus.BAD_REQUEST,
+                },
+                HttpStatus.BAD_REQUEST,
+              );
+            }
+        
+            console.error('Error creating vehicle:', error);
+            throw new HttpException(
+              'Failed to create vehicle',
+              HttpStatus.INTERNAL_SERVER_ERROR,
+            );
     }
   }
 
@@ -103,7 +116,7 @@ export class VehicleService {
     }
   }
 
-  async list(filters: FiltersVehicles): Promise<Vehicle[]> {
+  async list(filters: FiltersVehicles, page=1,limit=1): Promise<Vehicle[]> {
     try {
       let where;
         where = {[Op.and]:{
@@ -113,7 +126,10 @@ export class VehicleService {
                 }
              }
       }
-      return await Vehicle.findAll({ where });
+      return await Vehicle.findAll({ where,
+        limit,
+        offset: limit * (Math.trunc(page) - 1),
+   });
     } catch (error) {
       console.error('Error fetching vehicles with filters:', error);
       throw new HttpException(
