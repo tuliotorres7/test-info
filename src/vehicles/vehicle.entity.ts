@@ -16,7 +16,7 @@ export class Vehicle extends Model<Vehicle> {
   })
   id: number;
 
-  @ApiProperty({ description: 'Vehicle license plate', example: 'ABC1234' })
+  @ApiProperty({ description: 'Vehicle license plate', example: 'ABC-1234 (BR) or ABC1A23 (mercosul)' })
   @Column({
     type: DataType.STRING,
     unique: true,

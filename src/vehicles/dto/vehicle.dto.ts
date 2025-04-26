@@ -1,11 +1,13 @@
-import { IsNotEmpty, IsString, IsInt } from 'class-validator';
+import { IsNotEmpty, IsString, IsInt, Min, Max } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Vehicle } from '../vehicle.entity';
+import { IsLicensePlate } from '../../validators/license-plate.validator';
 
 export class VehicleDto implements Partial<Vehicle> {
-  @ApiProperty({ description: 'Vehicle license plate', example: 'ABC1234' })
+  @ApiProperty({ description: 'Vehicle license plate', example: 'ABC-1234 (BR) or ABC1A23 (mercosul)' })
   @IsNotEmpty({ message: 'The placa field is required.' })
   @IsString()
+  @IsLicensePlate({ message: 'The "license plate" must be in the format "ABC-1234" or "ABC1A23".' })
   placa: string;
 
   @ApiProperty({ description: 'Vehicle chassis', example: '9BWZZZ377VT004251' })
@@ -31,5 +33,7 @@ export class VehicleDto implements Partial<Vehicle> {
   @ApiProperty({ description: 'Vehicle year', example: 2025 })
   @IsNotEmpty({ message: 'The "year" field is required.' })
   @IsInt()
+  @Min(1900)
+  @Max(new Date().getFullYear())
   ano: number;
 }

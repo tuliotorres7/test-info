@@ -21,7 +21,7 @@ config()
           require: true,
           rejectUnauthorized: false, 
         },
-      }, // Sincroniza o banco de dados com os modelos (não recomendado em produção)
+      },
     }),
     VehicleModule,
   ],

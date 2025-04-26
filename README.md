@@ -27,6 +27,7 @@ To get started with the InfoCar project, follow these steps:
    ```
    npm install
    ```
+4. a database instance created in aivencloud was used, the values ​​for .env will be sent via email
 
 ## Running the Application
 
@@ -43,12 +44,14 @@ The application will start on `http://localhost:3000`.
 To run the end-to-end tests, use the following command:
 
 ```
-npm run test:e2e
+npm run test
 ```
 
 ## API Documentation
 
-The API endpoints are defined in the controllers within the `src/modules` directory. Each module contains its own controller and service for handling requests and business logic.
+Swagger
+
+http://localhost:3000/api#/
 
 ## Contributing
 

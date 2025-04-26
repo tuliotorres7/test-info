@@ -23,7 +23,7 @@ describe('VehicleService', () => {
 
   it('should create a vehicle', async () => {
     const vehicleDto: VehicleDto = {
-      placa: 'ABC1234',
+      placa: 'ABC-1234',
       chassi: '9BWZZZ377VT004251',
       renavam: '12345678901',
       modelo: 'palio',
@@ -42,7 +42,7 @@ describe('VehicleService', () => {
 
   it('should find all vehicles', async () => {
     const vehicles = [
-      { id: 1, placa: 'ABC1234', chassi: '9BWZZZ377VT004251', renavam: '12345678901', modelo: 'Gol', marca: 'Volkswagen', ano: 2025 },
+      { id: 1, placa: 'ABC-1234', chassi: '9BWZZZ377VT004251', renavam: '12345678901', modelo: 'Gol', marca: 'Volkswagen', ano: 2025 },
       { id: 2, placa: 'DEF5678', chassi: '9BWZZZ377VT004252', renavam: '12345678902', modelo: 'Polo', marca: 'Volkswagen', ano: 2023 },
     ] as Vehicle[];
 
@@ -56,7 +56,7 @@ describe('VehicleService', () => {
   });
 
   it('should find a vehicle by ID', async () => {
-    const vehicle = { id: 1, placa: 'ABC1234', chassi: '9BWZZZ377VT004251', renavam: '12345678901', modelo: 'Gol', marca: 'Volkswagen', ano: 2025 } as Vehicle;
+    const vehicle = { id: 1, placa: 'ABC-1234', chassi: '9BWZZZ377VT004251', renavam: '12345678901', modelo: 'Gol', marca: 'Volkswagen', ano: 2025 } as Vehicle;
 
     (Vehicle.findByPk as sinon.SinonStub).resolves(vehicle);
 
@@ -69,7 +69,7 @@ describe('VehicleService', () => {
   it('should update a vehicle', async () => {
     const vehicle = { 
       id: 1, 
-      placa: 'ABC1234', 
+      placa: 'ABC-1234', 
       chassi: '9BWZZZ377VT004251', 
       renavam: '12345678901', 
       modelo: 'Polo', 

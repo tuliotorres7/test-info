@@ -9,7 +9,7 @@ import { BadRequestExceptionError } from '../module/models/erro-http-bad-request
 import { NotFoundExceptionError } from '../module/models/erro-http-not-found';
 import { InternalServerExceptionError } from '../module/models/erro-http-internal-server-error';
 
-@ApiTags('vehicles') // Adiciona uma tag para agrupar os endpoints no Swagger
+@ApiTags('vehicles')
 @Controller('vehicles')
 export class VehicleController {
   constructor(private readonly vehiclesService: VehicleService) { }

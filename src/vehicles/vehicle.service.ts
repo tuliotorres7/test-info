@@ -105,7 +105,6 @@ export class VehicleService {
     try {
       // Remove undefined properties
       const where = JSON.parse(JSON.stringify(fields));
-      console.log('where', where);
       return await Vehicle.findAll({ where });
     } catch (error) {
       console.error('Error fetching vehicles with filters:', error);
