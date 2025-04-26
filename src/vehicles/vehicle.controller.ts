@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Param, Put, Delete, ValidationPipe, UsePipes } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete, ValidationPipe, UsePipes, Query } from '@nestjs/common';
 import { VehicleService } from './vehicle.service';
 import { VehicleDto } from './dto/vehicle.dto';
 import { Vehicle } from './vehicle.entity';
+import { VehicleQueryParams } from './models/utils';
 
 @Controller('vehicles')
 export class VehicleController {
@@ -19,6 +20,24 @@ export class VehicleController {
     return this.vehiclesService.findAll();
   }
 
+  @Get('find')
+  async find(@Query('placa') placa?: string,
+  @Query('chassi') chassi?: string,
+  @Query('renavam') renavam?: string,
+  @Query('modelo') modelo?: string,
+  @Query('marca') marca?: string,
+  @Query('ano') ano?: number) {
+    const filters : VehicleQueryParams = {
+      placa,
+      chassi,
+      renavam,
+      modelo,
+      marca,
+      ano,
+    };
+    return this.vehiclesService.find(filters);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.vehiclesService.findOne(id);
@@ -33,4 +52,5 @@ export class VehicleController {
   remove(@Param('id') id: string) {
     return this.vehiclesService.remove(id);
   }
+
 }

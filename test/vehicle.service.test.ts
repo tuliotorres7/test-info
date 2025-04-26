@@ -11,6 +11,8 @@ describe('VehicleService', () => {
     sinon.stub(Vehicle, 'create');
     sinon.stub(Vehicle, 'findAll');
     sinon.stub(Vehicle, 'findByPk');
+    sinon.stub(Vehicle, 'update');
+    sinon.stub(Vehicle, 'destroy');
 
     vehicleService = new VehicleService(Vehicle as any);
   });
@@ -47,7 +49,8 @@ describe('VehicleService', () => {
     (Vehicle.findAll as sinon.SinonStub).resolves(vehicles);
 
     const result = await vehicleService.findAll();
-
+    console.log(result, 'result');
+    console.log(vehicles, 'vehicles');
     expect(result).to.deep.equal(vehicles);
     expect((Vehicle.findAll as sinon.SinonStub).calledOnce).to.be.true;
   });
@@ -77,7 +80,7 @@ describe('VehicleService', () => {
     // Adiciona o método update manualmente e cria um stub para ele
     const updateStub = sinon.stub().resolves({ ...vehicle, modelo: 'Polo' });
     (vehicle as any).update = updateStub;
-    const updatedVehicle = { ...vehicle, placa: 'Polo' } as Vehicle;
+    const updatedVehicle = { ...vehicle, modelo: 'paliozin' } as Vehicle;
 
     (Vehicle.findByPk as sinon.SinonStub).resolves(vehicle); // Stub para findByPk
     //const result = (Vehicle.update as sinon.SinonStub).resolves(vehicle); // Stub para update

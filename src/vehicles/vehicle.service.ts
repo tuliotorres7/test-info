@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Vehicle } from './vehicle.entity';
 import { VehicleDto } from './dto/vehicle.dto';
+import { VehicleQueryParams } from './models/utils';
 
 @Injectable()
 export class VehicleService {
@@ -38,5 +39,12 @@ async remove(id: string): Promise<void> {
       //await Vehicle.destroy({ where: { id: vehicle.id } });
       await vehicle.destroy();
     }
+  }
+
+  async find(fields: VehicleQueryParams): Promise<Vehicle[]> {
+    // Remove undefined properties
+    const where = JSON.parse(JSON.stringify(fields));
+    console.log('where', where);
+    return Vehicle.findAll({ where });
   }
 }
