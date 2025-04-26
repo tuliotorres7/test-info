@@ -200,9 +200,9 @@ export class VehicleController {
   @Get(':id')
   @ApiParam({ name: 'id', description: 'ID do veículo' })
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     try {
-      return this.vehiclesService.findOne(id);
+      return this.vehiclesService.findOne(Number(id));
     } catch (error) {
       if (error instanceof HttpException) {
         throw error;
@@ -221,7 +221,7 @@ export class VehicleController {
   @ApiParam({ name: 'id', description: 'ID vehicle' })
   @ApiBody({ type: VehicleDto, description: 'Data for update vehicle' })
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-  update(@Param('id') id: string, @Body() vehicle: Vehicle) {
+  update(@Param('id') id: number, @Body() vehicle: Vehicle) {
     try {
       return this.vehiclesService.update(id, vehicle);
     } catch (error) {
@@ -241,9 +241,9 @@ export class VehicleController {
   @Delete(':id')
   @ApiParam({ name: 'id', description: 'ID vehicle' })
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     try {
-      return this.vehiclesService.remove(id);
+      return this.vehiclesService.remove(Number(id));
     } catch (error) {
       if (error instanceof HttpException) {
         throw error;

@@ -18,7 +18,6 @@ export class VehicleService {
     try {
 
       const vehicleCreated = await Vehicle.create(vehicle as Vehicle);
-      console.log('Vehicle created successfully:', vehicleCreated);
       return vehicleCreated;
     } catch (error: any) {
       if (error.name === 'SequelizeUniqueConstraintError') {
@@ -54,7 +53,7 @@ export class VehicleService {
     }
   }
 
-  async findOne(id: string): Promise<Vehicle | null> {
+  async findOne(id: number): Promise<Vehicle | null> {
     try {
       const vehicle = await this.vehicleModel.findByPk(id);
       if (!vehicle) {
@@ -62,6 +61,9 @@ export class VehicleService {
       }
       return vehicle;
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
       throw new HttpException(
         'Failed to fetch vehicle',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -69,7 +71,7 @@ export class VehicleService {
     }
   }
 
-  async update(id: string, vehicleUpdate: Vehicle): Promise<Vehicle | null> {
+  async update(id: number, vehicleUpdate: Vehicle): Promise<Vehicle | null> {
     try {
       const vehicle = await this.vehicleModel.findByPk(id);
       if (!vehicle) {
@@ -77,6 +79,9 @@ export class VehicleService {
       }
       return await vehicle.update(vehicleUpdate);
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
       throw new HttpException(
         'Failed to update vehicle',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -84,14 +89,20 @@ export class VehicleService {
     }
   }
 
-  async remove(id: string): Promise<void> {
+  async remove(id: number): Promise<void> {
     try {
+      console.log(id,'idasdasdasda')
       const vehicle = await this.vehicleModel.findByPk(id);
       if (!vehicle) {
+        console.log(  'nao existe')
         throw new HttpException('Vehicle not found', HttpStatus.NOT_FOUND);
       }
       await vehicle.destroy();
+      console.log('destruiu')
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
       throw new HttpException(
         'Failed to delete vehicle',
         HttpStatus.INTERNAL_SERVER_ERROR,
