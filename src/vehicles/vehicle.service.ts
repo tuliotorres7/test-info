@@ -16,7 +16,9 @@ export class VehicleService {
 
   async create(vehicle: VehicleDto): Promise<Vehicle> {
     try {
+
       const vehicleCreated = await Vehicle.create(vehicle as Vehicle);
+      console.log('Vehicle created successfully:', vehicleCreated);
       return vehicleCreated;
     } catch (error: any) {
       if (error.name === 'SequelizeUniqueConstraintError') {
@@ -34,7 +36,6 @@ export class VehicleService {
         );
       }
 
-      console.error('Error creating vehicle:', error);
       throw new HttpException(
         'Failed to create vehicle',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -46,7 +47,6 @@ export class VehicleService {
     try {
       return await this.vehicleModel.findAll();
     } catch (error) {
-      console.error('Error fetching all vehicles:', error);
       throw new HttpException(
         'Failed to fetch vehicles',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -62,7 +62,6 @@ export class VehicleService {
       }
       return vehicle;
     } catch (error) {
-      console.error(`Error fetching vehicle with ID ${id}:`, error);
       throw new HttpException(
         'Failed to fetch vehicle',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -78,7 +77,6 @@ export class VehicleService {
       }
       return await vehicle.update(vehicleUpdate);
     } catch (error) {
-      console.error(`Error updating vehicle with ID ${id}:`, error);
       throw new HttpException(
         'Failed to update vehicle',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -94,7 +92,6 @@ export class VehicleService {
       }
       await vehicle.destroy();
     } catch (error) {
-      console.error(`Error deleting vehicle with ID ${id}:`, error);
       throw new HttpException(
         'Failed to delete vehicle',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -104,11 +101,11 @@ export class VehicleService {
 
   async find(fields: VehicleQueryParams): Promise<Vehicle[]> {
     try {
-      // Remove undefined properties
-      const where = JSON.parse(JSON.stringify(fields));
+      const where = Object.fromEntries(
+        Object.entries(fields).filter(([_, value]) => value !== undefined),
+      );
       return await Vehicle.findAll({ where });
     } catch (error) {
-      console.error('Error fetching vehicles with filters:', error);
       throw new HttpException(
         'Failed to fetch vehicles',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -141,7 +138,6 @@ export class VehicleService {
         offset: limit * (Math.trunc(page) - 1),
       });
     } catch (error) {
-      console.error('Error fetching vehicles with filters:', error);
       throw new HttpException(
         'Failed to fetch vehicles',
         HttpStatus.INTERNAL_SERVER_ERROR,

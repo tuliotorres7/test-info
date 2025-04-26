@@ -31,7 +31,7 @@ describe('VehicleService', () => {
       ano: 2025,
     };
 
-    const createdVehicle = { id: 1, ...vehicleDto } as Vehicle;
+    const createdVehicle = { id: 10000, ...vehicleDto } as Vehicle;
     (Vehicle.create as sinon.SinonStub).resolves(createdVehicle);
 
     const result = await vehicleService.create(vehicleDto);
@@ -69,8 +69,6 @@ describe('VehicleService', () => {
     (Vehicle.findAll as sinon.SinonStub).resolves(vehicles);
 
     const result = await vehicleService.findAll();
-    console.log(result, 'result');
-    console.log(vehicles, 'vehicles');
     expect(result).to.deep.equal(vehicles);
     expect((Vehicle.findAll as sinon.SinonStub).calledOnce).to.be.true;
   });
@@ -86,10 +84,10 @@ describe('VehicleService', () => {
       ano: 2025,
     } as Vehicle;
 
-    (Vehicle.findByPk as sinon.SinonStub).resolves(vehicle);
+    (Vehicle.findByPk as sinon.SinonStub).resolves({});
 
     const result = await vehicleService.findOne('1');
-
+    console.log(result);
     expect(result).to.deep.equal(vehicle);
     expect((Vehicle.findByPk as sinon.SinonStub).calledOnceWithExactly('1')).to
       .be.true;
@@ -104,21 +102,20 @@ describe('VehicleService', () => {
       modelo: 'Polo',
       marca: 'Volkswagen',
       ano: 2025,
+      update: sinon.stub().resolvesThis() as sinon.SinonStub, // Stub para o método update
     } as unknown as Vehicle;
 
-    // Adiciona o método update manualmente e cria um stub para ele
-    const updateStub = sinon.stub().resolves({ ...vehicle, modelo: 'Polo' });
-    (vehicle as any).update = updateStub;
-    const updatedVehicle = { ...vehicle, modelo: 'paliozin' } as Vehicle;
+    const updatedVehicleData = { modelo: 'Polo' };
+    const updatedVehicle = { ...vehicle, ...updatedVehicleData };
 
     (Vehicle.findByPk as sinon.SinonStub).resolves(vehicle); // Stub para findByPk
-    //const result = (Vehicle.update as sinon.SinonStub).resolves(vehicle); // Stub para update
-    const result = await vehicleService.update('1', updatedVehicle);
-    delete (updatedVehicle as any).update;
+
+    const result = await vehicleService.update('1', updatedVehicleData as Vehicle);
+
     expect(result).to.deep.equal(updatedVehicle);
-    expect((Vehicle.findByPk as sinon.SinonStub).calledOnceWithExactly('1')).to
-      .be.true;
-    expect(updateStub.calledOnceWithExactly(updatedVehicle)).to.be.true;
+    expect((Vehicle.findByPk as sinon.SinonStub).calledOnceWithExactly('1')).to.be
+      .true;
+    expect((vehicle.update as sinon.SinonStub).calledOnceWithExactly(updatedVehicleData)).to.be.true;
   });
 
   it('should delete a vehicle', async () => {
