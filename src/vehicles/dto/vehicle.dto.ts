@@ -3,33 +3,33 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Vehicle } from '../vehicle.entity';
 
 export class VehicleDto implements Partial<Vehicle> {
-  @ApiProperty({ description: 'Placa do veículo', example: 'ABC1234' })
-  @IsNotEmpty({ message: 'O campo "placa" é obrigatório.' })
+  @ApiProperty({ description: 'Vehicle license plate', example: 'ABC1234' })
+  @IsNotEmpty({ message: 'The placa field is required.' })
   @IsString()
   placa: string;
 
-  @ApiProperty({ description: 'Chassi do veículo', example: '9BWZZZ377VT004251' })
-  @IsNotEmpty({ message: 'O campo "chassi" é obrigatório.' })
+  @ApiProperty({ description: 'Vehicle chassis', example: '9BWZZZ377VT004251' })
+  @IsNotEmpty({ message: 'The "chassis" field is required.' })
   @IsString()
   chassi: string;
 
-  @ApiProperty({ description: 'Renavam do veículo', example: '12345678901' })
-  @IsNotEmpty({ message: 'O campo "renavam" é obrigatório.' })
+  @ApiProperty({ description: 'Vehicle registration number (Renavam)', example: '12345678901' })
+  @IsNotEmpty({ message: 'The "registration number" field is required.' })
   @IsString()
   renavam: string;
 
-  @ApiProperty({ description: 'Modelo do veículo', example: 'Palio' })
-  @IsNotEmpty({ message: 'O campo "modelo" é obrigatório.' })
+  @ApiProperty({ description: 'Vehicle model', example: 'Palio' })
+  @IsNotEmpty({ message: 'The "model" field is required.' })
   @IsString()
   modelo: string;
 
-  @ApiProperty({ description: 'Marca do veículo', example: 'Fiat' })
-  @IsNotEmpty({ message: 'O campo "marca" é obrigatório.' })
+  @ApiProperty({ description: 'Vehicle brand', example: 'Fiat' })
+  @IsNotEmpty({ message: 'The "brand" field is required.' })
   @IsString()
   marca: string;
 
-  @ApiProperty({ description: 'Ano do veículo', example: 2025 })
-  @IsNotEmpty({ message: 'O campo "ano" é obrigatório.' })
+  @ApiProperty({ description: 'Vehicle year', example: 2025 })
+  @IsNotEmpty({ message: 'The "year" field is required.' })
   @IsInt()
   ano: number;
 }

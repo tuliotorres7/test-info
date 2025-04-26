@@ -15,18 +15,18 @@ export function messageValidationTypeFactory(
   type: TypeForValidation
 ): (argumentos: ValidationArguments) => string {
   const mapTypeDescription: Record<TypeForValidation, string> = {
-    int: 'um número inteiro',
-    string: 'uma string',
-    boolean: 'um valor booleano',
-    dateString: 'data no padrão ISO 8601',
-    object: 'um objeto',
-    array: 'um array',
-    numberString: 'uma string de números',
-    number: 'um número',
-    booleanString: 'uma string de boolean'
+    int: 'a number integer',
+    string: 'a string',
+    boolean: 'a value boolean',
+    dateString: 'data in ISO 8601',
+    object: 'a object',
+    array: 'a array',
+    numberString: 'a string number',
+    number: 'a number',
+    booleanString: 'a string boolean'
   };
 
   return function(argumentos: ValidationArguments) {
-    return `A propriedade '${argumentos.property}' espera receber ${mapTypeDescription[type]}. Valor recebido ${argumentos.value}. `;
+    return `The property '${argumentos.property}' is expected to receive ${mapTypeDescription[type]}. Value received: ${argumentos.value}. `;
   };
 }

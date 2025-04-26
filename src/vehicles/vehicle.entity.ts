@@ -2,11 +2,11 @@ import { Table, Column, Model, DataType } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Table({
-  timestamps: true, // Habilita timestamps
-  updatedAt: false, // Desabilita apenas o updatedAt
+  timestamps: true,
+  updatedAt: false,
 })
 export class Vehicle extends Model<Vehicle> {
-  @ApiProperty({ description: 'ID do veículo', example: 1 })
+  @ApiProperty({ description: 'ID Vehicle', example: 1 })
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
@@ -16,7 +16,7 @@ export class Vehicle extends Model<Vehicle> {
   })
   id: number;
 
-  @ApiProperty({ description: 'Placa do veículo', example: 'ABC1234' })
+  @ApiProperty({ description: 'Vehicle license plate', example: 'ABC1234' })
   @Column({
     type: DataType.STRING,
     unique: true,
@@ -24,7 +24,7 @@ export class Vehicle extends Model<Vehicle> {
   })
   placa: string;
 
-  @ApiProperty({ description: 'Chassi do veículo', example: '9BWZZZ377VT004251' })
+  @ApiProperty({ description: 'Vehicle chassis', example: '9BWZZZ377VT004251' })
   @Column({
     type: DataType.STRING,
     allowNull: false,
@@ -32,7 +32,7 @@ export class Vehicle extends Model<Vehicle> {
   })
   chassi: string;
 
-  @ApiProperty({ description: 'Renavam do veículo', example: '12345678901' })
+  @ApiProperty({ description: 'Vehicle registration number (Renavam)', example: '12345678901' })
   @Column({
     type: DataType.STRING,
     allowNull: false,
@@ -40,21 +40,21 @@ export class Vehicle extends Model<Vehicle> {
   })
   renavam: string;
 
-  @ApiProperty({ description: 'Modelo do veículo', example: 'Palio' })
+  @ApiProperty({ description: 'Vehicle model', example: 'Palio' })
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
   modelo: string;
 
-  @ApiProperty({ description: 'Marca do veículo', example: 'Fiat' })
+  @ApiProperty({ description: 'Vehicle brand', example: 'Fiat' })
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
   marca: string;
 
-  @ApiProperty({ description: 'Ano do veículo', example: 2025 })
+  @ApiProperty({ description: 'Vehicle year', example: 2025 })
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
