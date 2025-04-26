@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumberString, IsOptional } from "class-validator";
+import { IsNumber, IsNumberString, IsOptional } from "class-validator";
+import { messageValidationTypeFactory } from "./validation-message";
 
 export class FiltersVehicles {
     @ApiProperty({
@@ -8,9 +9,7 @@ export class FiltersVehicles {
       required: false
     })
     @IsOptional()
-    // @IsNumberString({
-    //   message: mensagemValidacaoTipoFabrica('numberString')
-    // })
+    @IsNumber()
     
     producedAfterTheYear?: number;
     @ApiProperty({
@@ -19,9 +18,7 @@ export class FiltersVehicles {
       required: false
     })
     @IsOptional()
-    // @IsNumberString({
-    //   message: mensagemValidacaoTipoFabrica('numberString')
-    // })
+    @IsNumber()
     producedBeforeTheYear?: number;
   }
   

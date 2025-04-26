@@ -2,10 +2,10 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Vehicle } from './vehicle.entity';
 import { VehicleDto } from './dto/vehicle.dto';
-import { VehicleQueryParams } from './models/utils';
+import { VehicleQueryParams } from '../module/models/utils';
 import { now, Where } from 'sequelize/types/utils';
 import { Op } from 'sequelize';
-import { FiltersVehicles } from './models/filterFindVehicles';
+import { FiltersVehicles } from '../module/models/filterFindVehicles';
 
 @Injectable()
 export class VehicleService {

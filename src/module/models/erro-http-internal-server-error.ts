@@ -1,15 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ValidationError } from 'class-validator';
 
-export class BadRequestExceptionError {
+export class InternalServerExceptionError {
   constructor(message: string, statusCode: number) {
     this.message = message;
     this.statusCode = statusCode;
   }
-  @ApiProperty({ example: 'Date invalid!' })
+  @ApiProperty({ example: 'Internal Server Error' })
   public message: string | ValidationError[];
 
-  @ApiProperty({ default: 400 })
-  public statusCode = 400;
+  @ApiProperty({ default: 500 })
+  public statusCode = 500;
 
 }
