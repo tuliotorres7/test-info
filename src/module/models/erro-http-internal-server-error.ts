@@ -11,5 +11,4 @@ export class InternalServerExceptionError {
 
   @ApiProperty({ default: 500 })
   public statusCode = 500;
-
 }

@@ -3,7 +3,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { Vehicle } from './vehicles/vehicle.entity';
 import { VehicleModule } from './vehicles/vehicle.module';
 import { config } from 'dotenv';
-config()
+config();
 @Module({
   imports: [
     SequelizeModule.forRoot({
@@ -13,13 +13,13 @@ config()
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      models: [Vehicle], 
-      autoLoadModels: true, 
+      models: [Vehicle],
+      autoLoadModels: true,
       synchronize: true,
       dialectOptions: {
         ssl: {
           require: true,
-          rejectUnauthorized: false, 
+          rejectUnauthorized: false,
         },
       },
     }),

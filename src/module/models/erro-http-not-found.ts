@@ -11,5 +11,4 @@ export class NotFoundExceptionError {
 
   @ApiProperty({ default: 404 })
   public statusCode = 404;
-
 }

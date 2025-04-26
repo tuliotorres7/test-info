@@ -12,7 +12,7 @@ type TypeForValidation =
   | 'number';
 
 export function messageValidationTypeFactory(
-  type: TypeForValidation
+  type: TypeForValidation,
 ): (argumentos: ValidationArguments) => string {
   const mapTypeDescription: Record<TypeForValidation, string> = {
     int: 'a number integer',
@@ -23,10 +23,10 @@ export function messageValidationTypeFactory(
     array: 'a array',
     numberString: 'a string number',
     number: 'a number',
-    booleanString: 'a string boolean'
+    booleanString: 'a string boolean',
   };
 
-  return function(argumentos: ValidationArguments) {
+  return function (argumentos: ValidationArguments) {
     return `The property '${argumentos.property}' is expected to receive ${mapTypeDescription[type]}. Value received: ${argumentos.value}. `;
   };
 }

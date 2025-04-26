@@ -1,11 +1,18 @@
 {
   "version": "0.2.0",
-  "configurations": [    
+  "configurations": [
     {
       "type": "node",
       "request": "launch",
       "name": "Debug NestJS App",
-      "runtimeArgs": ["-r", "ts-node/register", "-r", "tsconfig-paths/register","-r" ,"dotenv/config"],
+      "runtimeArgs": [
+        "-r",
+        "ts-node/register",
+        "-r",
+        "tsconfig-paths/register",
+        "-r",
+        "dotenv/config"
+      ],
       "args": ["${workspaceFolder}/src/main.ts"],
       "cwd": "${workspaceFolder}",
       "sourceMaps": true,

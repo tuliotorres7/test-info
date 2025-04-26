@@ -16,7 +16,10 @@ export class Vehicle extends Model<Vehicle> {
   })
   id: number;
 
-  @ApiProperty({ description: 'Vehicle license plate', example: 'ABC-1234 (BR) or ABC1A23 (mercosul)' })
+  @ApiProperty({
+    description: 'Vehicle license plate',
+    example: 'ABC-1234 (BR) or ABC1A23 (mercosul)',
+  })
   @Column({
     type: DataType.STRING,
     unique: true,
@@ -32,7 +35,10 @@ export class Vehicle extends Model<Vehicle> {
   })
   chassi: string;
 
-  @ApiProperty({ description: 'Vehicle registration number (Renavam)', example: '12345678901' })
+  @ApiProperty({
+    description: 'Vehicle registration number (Renavam)',
+    example: '12345678901',
+  })
   @Column({
     type: DataType.STRING,
     allowNull: false,

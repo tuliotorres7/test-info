@@ -8,7 +8,9 @@
     "build": "tsc -p tsconfig.build.json",
     "watch": "tsc -w",
     "test": "mocha --require ts-node/register test/*.test.ts",
-    "start:debug": "node -r dotenv/config -r ts-node/register -r tsconfig-paths/register src/main.ts"
+    "start:debug": "node -r dotenv/config -r ts-node/register -r tsconfig-paths/register src/main.ts",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@nestjs/common": "^11.0.20",
@@ -34,7 +36,11 @@
     "@types/mocha": "^10.0.10",
     "@types/sinon": "^17.0.4",
     "chai": "^5.2.0",
+    "eslint": "^9.25.1",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-prettier": "^5.2.6",
     "mocha": "^11.1.0",
+    "prettier": "^3.5.3",
     "sinon": "^20.0.0",
     "ts-loader": "^9.0.0",
     "ts-node": "^10.9.2",

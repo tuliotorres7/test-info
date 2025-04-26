@@ -4,10 +4,16 @@ import { Vehicle } from '../vehicle.entity';
 import { IsLicensePlate } from '../../validators/license-plate.validator';
 
 export class VehicleDto implements Partial<Vehicle> {
-  @ApiProperty({ description: 'Vehicle license plate', example: 'ABC-1234 (BR) or ABC1A23 (mercosul)' })
+  @ApiProperty({
+    description: 'Vehicle license plate',
+    example: 'ABC-1234 (BR) or ABC1A23 (mercosul)',
+  })
   @IsNotEmpty({ message: 'The placa field is required.' })
   @IsString()
-  @IsLicensePlate({ message: 'The "license plate" must be in the format "ABC-1234" or "ABC1A23".' })
+  @IsLicensePlate({
+    message:
+      'The "license plate" must be in the format "ABC-1234" or "ABC1A23".',
+  })
   placa: string;
 
   @ApiProperty({ description: 'Vehicle chassis', example: '9BWZZZ377VT004251' })
@@ -15,7 +21,10 @@ export class VehicleDto implements Partial<Vehicle> {
   @IsString()
   chassi: string;
 
-  @ApiProperty({ description: 'Vehicle registration number (Renavam)', example: '12345678901' })
+  @ApiProperty({
+    description: 'Vehicle registration number (Renavam)',
+    example: '12345678901',
+  })
   @IsNotEmpty({ message: 'The "registration number" field is required.' })
   @IsString()
   renavam: string;

@@ -1,9 +1,34 @@
-import { Controller, Get, Post, Body, Param, Put, Delete, ValidationPipe, UsePipes, Query, HttpStatus, HttpException, ParseIntPipe, InternalServerErrorException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Put,
+  Delete,
+  ValidationPipe,
+  UsePipes,
+  Query,
+  HttpStatus,
+  HttpException,
+  ParseIntPipe,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { VehicleService } from './vehicle.service';
 import { VehicleDto } from './dto/vehicle.dto';
 import { Vehicle } from './vehicle.entity';
 import { VehicleQueryParams } from '../module/models/utils';
-import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiBody,
+  ApiCreatedResponse,
+  ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiParam,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { FiltersVehicles } from '../module/models/filterFindVehicles';
 import { BadRequestExceptionError } from '../module/models/erro-http-bad-request';
 import { NotFoundExceptionError } from '../module/models/erro-http-not-found';
@@ -12,12 +37,12 @@ import { InternalServerExceptionError } from '../module/models/erro-http-interna
 @ApiTags('vehicles')
 @Controller('vehicles')
 export class VehicleController {
-  constructor(private readonly vehiclesService: VehicleService) { }
+  constructor(private readonly vehiclesService: VehicleService) {}
 
   @ApiCreatedResponse({
     description: 'Vehicle created successfully',
     type: Vehicle,
-    isArray: false
+    isArray: false,
   })
   @ApiBadRequestResponse({ type: BadRequestExceptionError })
   @ApiNotFoundResponse({ type: NotFoundExceptionError })
@@ -39,7 +64,7 @@ export class VehicleController {
   @ApiOkResponse({
     description: 'List all vehicles sucessfully',
     type: Vehicle,
-    isArray: true
+    isArray: true,
   })
   @ApiBadRequestResponse({ type: BadRequestExceptionError })
   @ApiNotFoundResponse({ type: NotFoundExceptionError })
@@ -57,20 +82,31 @@ export class VehicleController {
     }
   }
 
-
   @ApiOkResponse({
     description: 'List vehicles by year successfully',
     type: Vehicle,
-    isArray: true
+    isArray: true,
   })
   @ApiBadRequestResponse({ type: BadRequestExceptionError })
   @ApiNotFoundResponse({ type: NotFoundExceptionError })
-  @ApiInternalServerErrorResponse({ type: InternalServerExceptionError   })
+  @ApiInternalServerErrorResponse({ type: InternalServerExceptionError })
   @Get('find')
   @ApiQuery({ name: 'placa', required: false, description: 'Placa do veículo' })
-  @ApiQuery({ name: 'chassi', required: false, description: 'Chassi do veículo' })
-  @ApiQuery({ name: 'renavam', required: false, description: 'Renavam do veículo' })
-  @ApiQuery({ name: 'modelo', required: false, description: 'Modelo do veículo' })
+  @ApiQuery({
+    name: 'chassi',
+    required: false,
+    description: 'Chassi do veículo',
+  })
+  @ApiQuery({
+    name: 'renavam',
+    required: false,
+    description: 'Renavam do veículo',
+  })
+  @ApiQuery({
+    name: 'modelo',
+    required: false,
+    description: 'Modelo do veículo',
+  })
   @ApiQuery({ name: 'marca', required: false, description: 'Marca do veículo' })
   @ApiQuery({ name: 'ano', required: false, description: 'Ano do veículo' })
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
@@ -83,7 +119,14 @@ export class VehicleController {
     @Query('ano') ano?: number,
   ) {
     try {
-      const filters: VehicleQueryParams = { placa, chassi, renavam, modelo, marca, ano };
+      const filters: VehicleQueryParams = {
+        placa,
+        chassi,
+        renavam,
+        modelo,
+        marca,
+        ano,
+      };
       return this.vehiclesService.find(filters);
     } catch (error) {
       if (error instanceof HttpException) {
@@ -93,27 +136,29 @@ export class VehicleController {
     }
   }
 
-
   @ApiOkResponse({
     description: 'List vehicles by year successfully',
     type: Vehicle,
-    isArray: true
+    isArray: true,
   })
   @ApiBadRequestResponse({ type: BadRequestExceptionError })
   @ApiNotFoundResponse({ type: NotFoundExceptionError })
   @ApiInternalServerErrorResponse({ type: InternalServerExceptionError })
   @Get('list')
-  @ApiBody({ type: FiltersVehicles, description: 'data for list vehicles by year' })
+  @ApiBody({
+    type: FiltersVehicles,
+    description: 'data for list vehicles by year',
+  })
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   @ApiQuery({
     name: 'page',
     description: 'Page for returne',
-    required: true
-  }) 
+    required: true,
+  })
   @ApiQuery({
     name: 'limit',
     description: 'limit for returne',
-    required: true
+    required: true,
   })
   async list(
     @Body() body: FiltersVehicles,
@@ -123,17 +168,16 @@ export class VehicleController {
     limit = limit ? limit : 10;
     page = page ? page : 1;
     if (!body) {
-      throw new HttpException(
-        'No date given!',
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new HttpException('No date given!', HttpStatus.BAD_REQUEST);
     }
     const { producedBeforeTheYear, producedAfterTheYear } = body;
-    if ((!producedBeforeTheYear && !producedAfterTheYear) || (producedBeforeTheYear && producedAfterTheYear && producedAfterTheYear > producedBeforeTheYear)) {
-      throw new HttpException(
-        'Date invalid!',
-        HttpStatus.BAD_REQUEST,
-      );
+    if (
+      (!producedBeforeTheYear && !producedAfterTheYear) ||
+      (producedBeforeTheYear &&
+        producedAfterTheYear &&
+        producedAfterTheYear > producedBeforeTheYear)
+    ) {
+      throw new HttpException('Date invalid!', HttpStatus.BAD_REQUEST);
     }
     try {
       return this.vehiclesService.list(body, page, limit);
@@ -145,11 +189,10 @@ export class VehicleController {
     }
   }
 
-
   @ApiOkResponse({
     description: 'successfully searched for vehicle by id',
     type: Vehicle,
-    isArray: false
+    isArray: false,
   })
   @ApiBadRequestResponse({ type: BadRequestExceptionError })
   @ApiNotFoundResponse({ type: NotFoundExceptionError })
@@ -208,5 +251,4 @@ export class VehicleController {
       throw new InternalServerErrorException('Error deleting vehicle');
     }
   }
-
 }
