@@ -16,7 +16,7 @@ To get started with the InfoCar project, follow these steps:
 1. Clone the repository:
 
    ```
-   git clone https://github.com/yourusername/InfoCar.git
+   git clone https://github.com/tuliotorres7/InfoCar.git
    ```
 
 2. Navigate to the project directory:
