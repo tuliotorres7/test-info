@@ -162,8 +162,8 @@ export class VehicleController {
   })
   async list(
     @Body() body: FiltersVehicles,
-    @Query('page', ParseIntPipe) page: number = 1,
-    @Query('limit', ParseIntPipe) limit: number = 10,
+    @Query('page', new ParseIntPipe({ exceptionFactory: () => new BadRequestExceptionError('The "page" query parameter has required and a valid number.',400,'limit is required') })) page: number = 1,
+    @Query('limit',new  ParseIntPipe({ exceptionFactory: () => new BadRequestExceptionError('The "page" query parameter has required and a valid number.',400,'page is required') })) limit: number = 10,
   ) {
     limit = limit ? limit : 10;
     page = page ? page : 1;
