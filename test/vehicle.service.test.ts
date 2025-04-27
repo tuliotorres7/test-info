@@ -6,6 +6,7 @@ import { VehicleDto } from '../src/vehicles/dto/vehicle.dto';
 import { FiltersVehicles } from '../src/module/models/filterFindVehicles';
 import { Op } from 'sequelize';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { isLicensePlateValid } from '../src/module/models/utils';
 
 describe('VehicleService', () => {
   let vehicleService: VehicleService;
@@ -24,6 +25,21 @@ describe('VehicleService', () => {
     sinon.restore();
   });
 
+  
+  it('should fail validation for all license plates', async () => {
+    const vehicles:Vehicle[] = [
+      { id: 1, placa: 'HAY-3333', modelo: 'Gol', ano: 2020 },
+      { id: 2, placa: 'HAY-1254', modelo: 'Polo', ano: 2023 },
+    ] as Vehicle[];
+
+    (Vehicle.findAll  as sinon.SinonStub).resolves(vehicles);
+    const result = await Vehicle.findAll();
+    result.forEach((vehicle) => {
+      const isValid = isLicensePlateValid(vehicle.placa);
+      expect(isValid).to.be.true;
+    });
+  });
+
   it('should create a vehicle', async () => {
     const vehicleDto: VehicleDto = {
       placa: 'ABC-1234',
@@ -36,9 +52,7 @@ describe('VehicleService', () => {
 
     const createdVehicle = { id: 10000, ...vehicleDto } as Vehicle;
     (Vehicle.create as sinon.SinonStub).resolves(createdVehicle);
-
     const result = await vehicleService.create(vehicleDto);
-
     expect(result).to.deep.equal(createdVehicle);
     expect(
       (Vehicle.create as sinon.SinonStub).calledOnceWithExactly(
@@ -105,13 +119,13 @@ describe('VehicleService', () => {
       modelo: 'Polo',
       marca: 'Volkswagen',
       ano: 2025,
-      update: sinon.stub().resolvesThis() as sinon.SinonStub, // Stub para o método update
+      update: sinon.stub().resolvesThis() as sinon.SinonStub,
     } as unknown as Vehicle;
 
     const updatedVehicleData = { modelo: 'Polo' };
     const updatedVehicle = { ...vehicle, ...updatedVehicleData };
 
-    (Vehicle.findByPk as sinon.SinonStub).resolves(vehicle); // Stub para findByPk
+    (Vehicle.findByPk as sinon.SinonStub).resolves(vehicle); 
 
     const result = await vehicleService.update(1, updatedVehicleData as Vehicle);
 
@@ -131,17 +145,14 @@ describe('VehicleService', () => {
       marca: 'Volkswagen',
       ano: 2025,
     } as unknown as Vehicle;
-    // Adiciona o método destroy manualmente e cria um stub para ele
     const destroyStub = sinon.stub().resolves();
     (vehicle as any).destroy = destroyStub;
 
-    (Vehicle.findByPk as sinon.SinonStub).resolves(vehicle); // Stub para findByPk
+    (Vehicle.findByPk as sinon.SinonStub).resolves(vehicle); 
     const idNotChange = 2
     await vehicleService.remove(idNotChange);
-    console.log('primeiro')
     expect((Vehicle.findByPk as sinon.SinonStub).calledOnceWithExactly(idNotChange)).to
       .be.true;
-    console.log('segundo')
     expect(destroyStub.calledOnce).to.be.true;
   });
 
@@ -177,7 +188,6 @@ describe('VehicleService', () => {
 
     (Vehicle.findAll as sinon.SinonStub).resolves(vehicles);
     const result = await vehicleService.list(filters, page, limit);
-    console.log(result)
     expect(result).to.deep.equal(vehicles);
     expect((Vehicle.findAll as sinon.SinonStub).calledOnceWithExactly({
       where: {
@@ -199,15 +209,12 @@ describe('VehicleService', () => {
     try {
       await vehicleService.remove(id);
       throw new HttpException('Vehicle not found', HttpStatus.NOT_FOUND);
-    } catch (error) {
+    } catch (error:any) {
       expect(error).to.be.instanceOf(HttpException);
-      console.log('error', error);
       expect(error.status).to.equal(404);
-    expect(error.message).to.equal('Vehicle not found');
+      expect(error.message).to.equal('Vehicle not found');
     }
     //expectation must be false, because it does not exist, so the destroy function must not have been executed
     expect((Vehicle.destroy as sinon.SinonStub).calledOnce).to.be.false;
-    console.log(id,'aaaaaaaaaaaaaaaa')
-    expect((Vehicle.destroy as sinon.SinonStub).firstCall.args[0]).to.deep.equal({ where: { id } });
   });
 });

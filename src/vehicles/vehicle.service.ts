@@ -91,14 +91,11 @@ export class VehicleService {
 
   async remove(id: number): Promise<void> {
     try {
-      console.log(id,'idasdasdasda')
       const vehicle = await this.vehicleModel.findByPk(id);
       if (!vehicle) {
-        console.log(  'nao existe')
         throw new HttpException('Vehicle not found', HttpStatus.NOT_FOUND);
       }
       await vehicle.destroy();
-      console.log('destruiu')
     } catch (error) {
       if (error instanceof HttpException) {
         throw error;
@@ -135,11 +132,11 @@ export class VehicleService {
         [Op.and]: {
           ano: {
             [Op.lte]: filters.producedBeforeTheYear
-              ? filters.producedBeforeTheYear
-              : Date.now(),
+            ? filters.producedBeforeTheYear
+            : Date.now(),
             [Op.gte]: filters.producedAfterTheYear
-              ? filters.producedAfterTheYear
-              : 0,
+            ? filters.producedAfterTheYear
+            : 0,
           },
         },
       };
